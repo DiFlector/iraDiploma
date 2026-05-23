@@ -32,8 +32,8 @@ export default function ProjectsPage() {
   }
 
   return (
-    <Box>
-      <Box sx={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', mb: 3 }}>
+    <Box sx={{ width: '100%', minWidth: 0 }}>
+      <Box sx={{ display: 'flex', flexDirection: { xs: 'column', sm: 'row' }, justifyContent: 'space-between', alignItems: { xs: 'stretch', sm: 'center' }, gap: 1.5, mb: 3 }}>
         <Typography variant="h5">Проекты</Typography>
         <Button variant="contained" startIcon={<AddIcon />} onClick={() => setOpen(true)}>Новый проект</Button>
       </Box>
@@ -53,8 +53,8 @@ export default function ProjectsPage() {
               <Card>
                 <CardActionArea onClick={() => navigate(`/projects/${project.id}`)}>
                   <CardContent>
-                    <Box sx={{ display: 'flex', justifyContent: 'space-between', alignItems: 'flex-start' }}>
-                      <Typography variant="h6" gutterBottom>{project.name}</Typography>
+                    <Box sx={{ display: 'flex', justifyContent: 'space-between', alignItems: 'flex-start', gap: 1 }}>
+                      <Typography variant="h6" gutterBottom sx={{ minWidth: 0, overflowWrap: 'anywhere' }}>{project.name}</Typography>
                       {project.owner_id === currentUserId && (
                         <IconButton size="small" color="error" onClick={(e) => { e.stopPropagation(); deleteProject(project.id) }}>
                           <DeleteIcon fontSize="small" />
@@ -62,11 +62,11 @@ export default function ProjectsPage() {
                       )}
                     </Box>
                     {project.description && (
-                      <Typography variant="body2" color="text.secondary" gutterBottom>
+                      <Typography variant="body2" color="text.secondary" gutterBottom sx={{ overflowWrap: 'anywhere' }}>
                         {project.description.slice(0, 80)}{project.description.length > 80 ? '…' : ''}
                       </Typography>
                     )}
-                    <Typography variant="caption" color="text.secondary">
+                    <Typography variant="caption" color="text.secondary" sx={{ display: 'block', overflowWrap: 'anywhere' }}>
                       {project.members.length} участников · Создан {format(new Date(project.created_at), 'd MMM yyyy', { locale: ru })}
                     </Typography>
                   </CardContent>
@@ -77,7 +77,7 @@ export default function ProjectsPage() {
         </Grid>
       )}
 
-      <Dialog open={open} onClose={() => setOpen(false)} maxWidth="sm" fullWidth>
+      <Dialog open={open} onClose={() => setOpen(false)} maxWidth="sm" fullWidth sx={{ '& .MuiDialog-paper': { m: { xs: 1.5, sm: 4 }, width: { xs: 'calc(100% - 24px)', sm: '100%' } } }}>
         <DialogTitle>Новый проект</DialogTitle>
         <DialogContent>
           <TextField label="Название *" fullWidth margin="normal" value={name} onChange={(e) => setName(e.target.value)} />

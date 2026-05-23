@@ -44,20 +44,20 @@ export default function ProjectPage() {
   }
 
   return (
-    <Box>
-      <Box sx={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', mb: 1 }}>
-        <Typography variant="h5">{project.name}</Typography>
+    <Box sx={{ width: '100%', minWidth: 0 }}>
+      <Box sx={{ display: 'flex', flexDirection: { xs: 'column', sm: 'row' }, justifyContent: 'space-between', alignItems: { xs: 'stretch', sm: 'center' }, gap: 1.5, mb: 1 }}>
+        <Typography variant="h5" sx={{ overflowWrap: 'anywhere' }}>{project.name}</Typography>
         <Button variant="contained" startIcon={<AddIcon />} onClick={() => setTaskOpen(true)}>Задача</Button>
       </Box>
-      {project.description && <Typography color="text.secondary" mb={2}>{project.description}</Typography>}
+      {project.description && <Typography color="text.secondary" mb={2} sx={{ overflowWrap: 'anywhere' }}>{project.description}</Typography>}
 
       <Typography variant="h6" mb={1} mt={2}>Участники</Typography>
       <List dense>
         {project.members.map((m) => (
-          <ListItem key={m.user_id} secondaryAction={
+          <ListItem key={m.user_id} sx={{ pr: { xs: 0, sm: 16 }, flexWrap: { xs: 'wrap', sm: 'nowrap' }, alignItems: 'flex-start', '& .MuiListItemSecondaryAction-root': { position: { xs: 'static', sm: 'absolute' }, transform: { xs: 'none', sm: 'translateY(-50%)' }, width: { xs: '100%', sm: 'auto' }, mt: { xs: 1, sm: 0 } } }} secondaryAction={
             isAdmin && m.user_id !== currentUserId ? (
-              <Box sx={{ display: 'flex', gap: 1 }}>
-                <TextField select size="small" value={m.role} onChange={(e) => updateRole({ projectId: project.id, userId: m.user_id, role: e.target.value as ProjectRole })} sx={{ minWidth: 120 }}>
+              <Box sx={{ display: 'flex', gap: 1, flexWrap: 'wrap', width: { xs: '100%', sm: 'auto' } }}>
+                <TextField select size="small" value={m.role} onChange={(e) => updateRole({ projectId: project.id, userId: m.user_id, role: e.target.value as ProjectRole })} sx={{ minWidth: 120, flex: { xs: 1, sm: 'initial' } }}>
                   {ROLES.map((r) => <MenuItem key={r} value={r}>{ROLE_LABELS[r]}</MenuItem>)}
                 </TextField>
                 <Button size="small" color="error" onClick={() => removeMember({ projectId: project.id, userId: m.user_id })}>Удалить</Button>
@@ -71,7 +71,7 @@ export default function ProjectPage() {
                 {m.user.first_name[0]}{m.user.last_name[0]}
               </Avatar>
             </ListItemAvatar>
-            <ListItemText primary={`${m.user.first_name} ${m.user.last_name}`} />
+            <ListItemText primary={`${m.user.first_name} ${m.user.last_name}`} primaryTypographyProps={{ sx: { overflowWrap: 'anywhere' } }} />
           </ListItem>
         ))}
       </List>
@@ -84,12 +84,12 @@ export default function ProjectPage() {
 
       <Divider sx={{ my: 2 }} />
       <Typography variant="h6" mb={1}>Задачи проекта ({tasks.length})</Typography>
-      <Box sx={{ maxWidth: 720 }}>
+      <Box sx={{ maxWidth: 720, width: '100%', minWidth: 0 }}>
         {tasks.map((t) => <TaskCard key={t.id} task={t} />)}
         {tasks.length === 0 && <Typography color="text.secondary">Задач нет</Typography>}
       </Box>
 
-      <Dialog open={inviteOpen} onClose={() => setInviteOpen(false)} maxWidth="xs" fullWidth>
+      <Dialog open={inviteOpen} onClose={() => setInviteOpen(false)} maxWidth="xs" fullWidth sx={{ '& .MuiDialog-paper': { m: { xs: 1.5, sm: 4 }, width: { xs: 'calc(100% - 24px)', sm: '100%' } } }}>
         <DialogTitle>Пригласить участника</DialogTitle>
         <DialogContent>
           <TextField label="Email" fullWidth margin="normal" value={email} onChange={(e) => setEmail(e.target.value)} />

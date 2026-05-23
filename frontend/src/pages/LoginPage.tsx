@@ -27,8 +27,8 @@ export default function LoginPage() {
   }
 
   return (
-    <Box sx={{ minHeight: '100vh', display: 'flex', alignItems: 'center', justifyContent: 'center', bgcolor: 'background.default' }}>
-      <Card sx={{ width: 400, p: 2 }}>
+    <Box sx={{ minHeight: '100vh', display: 'flex', alignItems: 'center', justifyContent: 'center', bgcolor: 'background.default', p: 2 }}>
+      <Card sx={{ width: '100%', maxWidth: 400, p: { xs: 1, sm: 2 } }}>
         <CardContent>
           <Typography variant="h5" textAlign="center" mb={3} color="primary">TaskApp</Typography>
           <Typography variant="h6" mb={2}>Вход</Typography>

@@ -27,20 +27,20 @@ export default function RegisterPage() {
   }
 
   return (
-    <Box sx={{ minHeight: '100vh', display: 'flex', alignItems: 'center', justifyContent: 'center', bgcolor: 'background.default' }}>
-      <Card sx={{ width: 440, p: 2 }}>
+    <Box sx={{ minHeight: '100vh', display: 'flex', alignItems: 'center', justifyContent: 'center', bgcolor: 'background.default', p: 2 }}>
+      <Card sx={{ width: '100%', maxWidth: 440, p: { xs: 1, sm: 2 } }}>
         <CardContent>
           <Typography variant="h5" textAlign="center" mb={3} color="primary">TaskApp</Typography>
           <Typography variant="h6" mb={2}>Регистрация</Typography>
           {error && <Alert severity="error" sx={{ mb: 2 }}>{error}</Alert>}
           <form onSubmit={handleSubmit(onSubmit)}>
             <Grid container spacing={1}>
-              <Grid item xs={6}>
+              <Grid item xs={12} sm={6}>
                 <TextField label="Имя" fullWidth margin="dense"
                   error={!!errors.first_name} helperText={errors.first_name?.message}
                   {...reg('first_name', { required: 'Введите имя' })} />
               </Grid>
-              <Grid item xs={6}>
+              <Grid item xs={12} sm={6}>
                 <TextField label="Фамилия" fullWidth margin="dense"
                   error={!!errors.last_name} helperText={errors.last_name?.message}
                   {...reg('last_name', { required: 'Введите фамилию' })} />

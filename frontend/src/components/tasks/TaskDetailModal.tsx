@@ -70,10 +70,10 @@ export default function TaskDetailModal({ task, open, onClose }: Props) {
 
   return (
     <>
-      <Dialog open={open} onClose={onClose} maxWidth="md" fullWidth scroll="paper">
+      <Dialog open={open} onClose={onClose} maxWidth="md" fullWidth scroll="paper" sx={{ '& .MuiDialog-paper': { m: { xs: 1.5, sm: 4 }, width: { xs: 'calc(100% - 24px)', sm: '100%' } } }}>
         <DialogTitle sx={{ pr: 6, display: 'flex', alignItems: 'flex-start', gap: 1 }}>
-          <Box sx={{ flex: 1 }}>
-            <Typography variant="h6" component="span">{task.title}</Typography>
+          <Box sx={{ flex: 1, minWidth: 0 }}>
+            <Typography variant="h6" component="span" sx={{ overflowWrap: 'anywhere' }}>{task.title}</Typography>
             <Box sx={{ display: 'flex', flexWrap: 'wrap', gap: 0.5, mt: 0.5 }}>
               <Chip
                 label={TASK_STATUS_LABELS[task.status]}
@@ -100,7 +100,7 @@ export default function TaskDetailModal({ task, open, onClose }: Props) {
 
         <DialogContent dividers>
           {/* Мета-информация */}
-          <Box sx={{ display: 'flex', flexWrap: 'wrap', gap: 3, mb: 2 }}>
+          <Box sx={{ display: 'flex', flexWrap: 'wrap', gap: { xs: 1.25, sm: 3 }, mb: 2 }}>
             {task.due_date && (
               <Box sx={{ display: 'flex', alignItems: 'center', gap: 0.5 }}>
                 <Typography variant="caption" color="text.secondary" fontWeight={600}>Дедлайн:</Typography>
@@ -136,7 +136,7 @@ export default function TaskDetailModal({ task, open, onClose }: Props) {
           {task.description && (
             <Box sx={{ mb: 3 }}>
               <Typography variant="body2" color="text.secondary" fontWeight={600} gutterBottom>Описание</Typography>
-              <Typography variant="body2" sx={{ whiteSpace: 'pre-wrap' }}>{task.description}</Typography>
+              <Typography variant="body2" sx={{ whiteSpace: 'pre-wrap', overflowWrap: 'anywhere' }}>{task.description}</Typography>
             </Box>
           )}
 
@@ -144,7 +144,7 @@ export default function TaskDetailModal({ task, open, onClose }: Props) {
 
           {/* Подзадачи */}
           <Box sx={{ mb: 3 }}>
-            <Box sx={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', mb: 1 }}>
+            <Box sx={{ display: 'flex', flexDirection: { xs: 'column', sm: 'row' }, alignItems: { xs: 'stretch', sm: 'center' }, justifyContent: 'space-between', gap: 1, mb: 1 }}>
               <Typography variant="subtitle2" fontWeight={700}>
                 Подзадачи {subtasks.length > 0 && `(${subtasks.filter(s => s.status === 'done').length}/${subtasks.length})`}
               </Typography>
@@ -158,7 +158,7 @@ export default function TaskDetailModal({ task, open, onClose }: Props) {
             ) : (
               <Box>
                 {subtasks.map((s) => (
-                  <Box key={s.id} sx={{ display: 'flex', alignItems: 'center', py: 0.25 }}>
+                  <Box key={s.id} sx={{ display: 'flex', alignItems: 'center', py: 0.25, minWidth: 0 }}>
                     <Checkbox
                       size="small"
                       checked={s.status === 'done'}
@@ -167,7 +167,7 @@ export default function TaskDetailModal({ task, open, onClose }: Props) {
                     />
                     <Typography
                       variant="body2"
-                      sx={{ textDecoration: s.status === 'done' ? 'line-through' : 'none', color: s.status === 'done' ? 'text.disabled' : 'text.primary' }}
+                      sx={{ textDecoration: s.status === 'done' ? 'line-through' : 'none', color: s.status === 'done' ? 'text.disabled' : 'text.primary', overflowWrap: 'anywhere' }}
                     >
                       {s.title}
                     </Typography>
@@ -180,7 +180,7 @@ export default function TaskDetailModal({ task, open, onClose }: Props) {
             )}
 
             {addingSubtask && (
-              <Box sx={{ display: 'flex', gap: 1, mt: 1 }}>
+              <Box sx={{ display: 'flex', flexDirection: { xs: 'column', sm: 'row' }, gap: 1, mt: 1 }}>
                 <TextField
                   size="small"
                   placeholder="Название подзадачи"
@@ -226,7 +226,7 @@ export default function TaskDetailModal({ task, open, onClose }: Props) {
                     </ListItemAvatar>
                     <ListItemText
                       primary={
-                        <Box sx={{ display: 'flex', alignItems: 'center', gap: 1 }}>
+                        <Box sx={{ display: 'flex', alignItems: 'center', flexWrap: 'wrap', gap: 1 }}>
                           <Typography variant="caption" fontWeight={600}>
                             {c.user.first_name} {c.user.last_name}
                           </Typography>
@@ -246,7 +246,7 @@ export default function TaskDetailModal({ task, open, onClose }: Props) {
                         </Box>
                       }
                       secondary={
-                        <Typography variant="body2" sx={{ whiteSpace: 'pre-wrap', mt: 0.25 }}>
+                        <Typography variant="body2" sx={{ whiteSpace: 'pre-wrap', overflowWrap: 'anywhere', mt: 0.25 }}>
                           {c.content}
                         </Typography>
                       }
@@ -258,7 +258,7 @@ export default function TaskDetailModal({ task, open, onClose }: Props) {
             )}
 
             {/* Поле ввода комментария */}
-            <Box sx={{ display: 'flex', gap: 1, mt: 2 }}>
+            <Box sx={{ display: 'flex', alignItems: 'flex-start', gap: 1, mt: 2 }}>
               <TextField
                 size="small"
                 multiline

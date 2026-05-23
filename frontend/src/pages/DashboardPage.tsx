@@ -30,10 +30,10 @@ export default function DashboardPage() {
   const { data: tasks = [], isLoading } = useGetTasksQuery(queryParams)
 
   return (
-    <Box>
-      <Box sx={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', mb: 3 }}>
+    <Box sx={{ width: '100%', minWidth: 0 }}>
+      <Box sx={{ display: 'flex', flexDirection: { xs: 'column', sm: 'row' }, justifyContent: 'space-between', alignItems: { xs: 'stretch', sm: 'center' }, gap: 1.5, mb: 3 }}>
         <Typography variant="h5">Мои задачи</Typography>
-        <Box sx={{ display: 'flex', gap: 1 }}>
+        <Box sx={{ display: 'flex', gap: 1, flexWrap: 'wrap', '& .MuiButton-root': { width: { xs: '100%', sm: 'auto' } } }}>
           <Tooltip title={
             tasks.filter((t) => t.due_date).length === 0
               ? 'Нет задач с датой дедлайна'
@@ -66,7 +66,7 @@ export default function DashboardPage() {
           <Button variant="outlined" sx={{ mt: 2 }} onClick={() => setCreateOpen(true)}>Создать первую задачу</Button>
         </Box>
       ) : (
-        <Box sx={{ maxWidth: 720 }}>
+        <Box sx={{ maxWidth: 720, width: '100%', minWidth: 0 }}>
           {tasks.map((task) => <TaskCard key={task.id} task={task} />)}
         </Box>
       )}

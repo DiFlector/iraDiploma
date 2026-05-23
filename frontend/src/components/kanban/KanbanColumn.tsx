@@ -14,7 +14,7 @@ export default function KanbanColumn({ status, tasks }: Props) {
   const { setNodeRef, isOver } = useDroppable({ id: status })
 
   return (
-    <Box sx={{ flex: 1, minWidth: 240, maxWidth: 300 }}>
+    <Box sx={{ minWidth: 0 }}>
       <Box sx={{ display: 'flex', alignItems: 'center', mb: 1.5, gap: 1 }}>
         <Typography variant="subtitle2" fontWeight={700}>{TASK_STATUS_LABELS[status]}</Typography>
         <Chip label={tasks.length} size="small" sx={{ height: 18, fontSize: 11, bgcolor: TASK_STATUS_COLORS[status], color: '#fff' }} />

@@ -60,8 +60,8 @@ export default function KanbanPage() {
   }
 
   return (
-    <Box>
-      <Box sx={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', mb: 3 }}>
+    <Box sx={{ width: '100%', minWidth: 0 }}>
+      <Box sx={{ display: 'flex', flexDirection: { xs: 'column', sm: 'row' }, justifyContent: 'space-between', alignItems: { xs: 'stretch', sm: 'center' }, gap: 1.5, mb: 3 }}>
         <Typography variant="h5">Kanban</Typography>
         <Button variant="contained" startIcon={<AddIcon />} onClick={() => { setCreateStatus('to_do'); setCreateOpen(true) }}>
           Новая задача
@@ -77,7 +77,7 @@ export default function KanbanPage() {
           onDragStart={handleDragStart}
           onDragEnd={handleDragEnd}
         >
-          <Box sx={{ display: 'flex', gap: 2, overflowX: 'auto', pb: 2 }}>
+          <Box sx={{ display: 'grid', gridAutoFlow: 'column', gridAutoColumns: { xs: 'minmax(260px, 82vw)', sm: 'minmax(240px, 1fr)' }, gap: 2, overflowX: 'auto', overflowY: 'hidden', pb: 2, width: '100%', minWidth: 0 }}>
             {COLUMNS.map((status) => (
               <KanbanColumn key={status} status={status} tasks={tasksByStatus[status]} />
             ))}

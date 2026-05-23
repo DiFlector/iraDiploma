@@ -13,9 +13,9 @@ function CompletionChart() {
   const { data, isLoading } = useGetCompletionQuery({ period })
 
   return (
-    <Card>
+    <Card sx={{ minWidth: 0 }}>
       <CardContent>
-        <Box sx={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', mb: 2 }}>
+        <Box sx={{ display: 'flex', flexDirection: { xs: 'column', sm: 'row' }, justifyContent: 'space-between', alignItems: { xs: 'stretch', sm: 'center' }, gap: 1.5, mb: 2 }}>
           <Typography variant="h6">Выполненные задачи</Typography>
           <ToggleButtonGroup size="small" value={period} exclusive onChange={(_, v) => v && setPeriod(v)}>
             <ToggleButton value="week">Неделя</ToggleButton>
@@ -43,7 +43,7 @@ function StatusDistributionChart() {
   const chartData = data.map((d) => ({ name: TASK_STATUS_LABELS[d.status], value: d.count, color: TASK_STATUS_COLORS[d.status] }))
 
   return (
-    <Card>
+    <Card sx={{ minWidth: 0 }}>
       <CardContent>
         <Typography variant="h6" mb={2}>Распределение по статусам</Typography>
         {isLoading ? <CircularProgress size={24} /> : chartData.length === 0 ? (
@@ -70,11 +70,11 @@ function ProjectProgressChart() {
   const { data: progress, isLoading } = useGetProjectProgressQuery(selectedId, { skip: !selectedId })
 
   return (
-    <Card>
+    <Card sx={{ minWidth: 0 }}>
       <CardContent>
-        <Box sx={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', mb: 2 }}>
+        <Box sx={{ display: 'flex', flexDirection: { xs: 'column', sm: 'row' }, justifyContent: 'space-between', alignItems: { xs: 'stretch', sm: 'center' }, gap: 1.5, mb: 2 }}>
           <Typography variant="h6">Прогресс проекта</Typography>
-          <TextField select size="small" label="Проект" value={selectedId} onChange={(e) => setSelectedId(e.target.value)} sx={{ minWidth: 160 }}>
+          <TextField select size="small" label="Проект" value={selectedId} onChange={(e) => setSelectedId(e.target.value)} sx={{ minWidth: { xs: '100%', sm: 160 } }}>
             {projects.map((p) => <MenuItem key={p.id} value={p.id}>{p.name}</MenuItem>)}
           </TextField>
         </Box>
@@ -82,7 +82,7 @@ function ProjectProgressChart() {
           <Typography color="text.secondary">Выберите проект</Typography>
         ) : isLoading ? <CircularProgress size={24} /> : progress ? (
           <Box>
-            <Box sx={{ display: 'flex', justifyContent: 'space-between', mb: 1 }}>
+            <Box sx={{ display: 'flex', justifyContent: 'space-between', alignItems: 'flex-start', gap: 1, mb: 1 }}>
               <Typography variant="body2">Выполнено {progress.done} из {progress.total}</Typography>
               <Typography variant="h5" color="primary" fontWeight={700}>{progress.percent}%</Typography>
             </Box>
@@ -104,12 +104,12 @@ function ProjectProgressChart() {
 
 export default function AnalyticsPage() {
   return (
-    <Box>
+    <Box sx={{ width: '100%', minWidth: 0 }}>
       <Typography variant="h5" mb={3}>Аналитика</Typography>
       <Grid container spacing={3}>
-        <Grid item xs={12} md={8}><CompletionChart /></Grid>
-        <Grid item xs={12} md={4}><StatusDistributionChart /></Grid>
-        <Grid item xs={12} md={6}><ProjectProgressChart /></Grid>
+        <Grid item xs={12} md={8} sx={{ minWidth: 0 }}><CompletionChart /></Grid>
+        <Grid item xs={12} md={4} sx={{ minWidth: 0 }}><StatusDistributionChart /></Grid>
+        <Grid item xs={12} md={6} sx={{ minWidth: 0 }}><ProjectProgressChart /></Grid>
       </Grid>
     </Box>
   )

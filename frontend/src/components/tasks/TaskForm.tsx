@@ -76,7 +76,7 @@ export default function TaskForm({ open, onClose, task, defaultProjectId, defaul
   }
 
   return (
-    <Dialog open={open} onClose={onClose} maxWidth="sm" fullWidth>
+    <Dialog open={open} onClose={onClose} maxWidth="sm" fullWidth sx={{ '& .MuiDialog-paper': { m: { xs: 1.5, sm: 4 }, width: { xs: 'calc(100% - 24px)', sm: '100%' } } }}>
       <DialogTitle>{task ? 'Редактировать задачу' : 'Новая задача'}</DialogTitle>
       <form onSubmit={handleSubmit(onSubmit)}>
         <DialogContent>
@@ -87,24 +87,24 @@ export default function TaskForm({ open, onClose, task, defaultProjectId, defaul
             <Grid item xs={12}>
               <TextField label="Описание" fullWidth multiline rows={3} {...register('description')} />
             </Grid>
-            <Grid item xs={6}>
+            <Grid item xs={12} sm={6}>
               <Controller name="status" control={control} render={({ field }) => (
                 <TextField select label="Статус" fullWidth {...field}>
                   {STATUSES.map((s) => <MenuItem key={s} value={s}>{TASK_STATUS_LABELS[s]}</MenuItem>)}
                 </TextField>
               )} />
             </Grid>
-            <Grid item xs={6}>
+            <Grid item xs={12} sm={6}>
               <Controller name="priority" control={control} render={({ field }) => (
                 <TextField select label="Приоритет" fullWidth {...field}>
                   {PRIORITIES.map((p) => <MenuItem key={p} value={p}>{TASK_PRIORITY_LABELS[p]}</MenuItem>)}
                 </TextField>
               )} />
             </Grid>
-            <Grid item xs={6}>
+            <Grid item xs={12} sm={6}>
               <TextField label="Срок" type="datetime-local" fullWidth InputLabelProps={{ shrink: true }} {...register('due_date')} />
             </Grid>
-            <Grid item xs={6}>
+            <Grid item xs={12} sm={6}>
               <Controller name="project_id" control={control} render={({ field }) => (
                 <TextField select label="Проект" fullWidth {...field}>
                   <MenuItem value="">— Без проекта —</MenuItem>

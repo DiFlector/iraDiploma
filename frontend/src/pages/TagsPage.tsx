@@ -40,8 +40,8 @@ export default function TagsPage() {
   }
 
   return (
-    <Box>
-      <Box sx={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', mb: 3 }}>
+    <Box sx={{ width: '100%', minWidth: 0 }}>
+      <Box sx={{ display: 'flex', flexDirection: { xs: 'column', sm: 'row' }, justifyContent: 'space-between', alignItems: { xs: 'stretch', sm: 'center' }, gap: 1.5, mb: 3 }}>
         <Typography variant="h5">Метки</Typography>
         <Button variant="contained" startIcon={<AddIcon />} onClick={() => setOpen(true)}>
           Новая метка
@@ -61,13 +61,13 @@ export default function TagsPage() {
           </Button>
         </Box>
       ) : (
-        <Paper variant="outlined" sx={{ maxWidth: 520 }}>
+        <Paper variant="outlined" sx={{ maxWidth: 520, width: '100%', minWidth: 0 }}>
           <List disablePadding>
             {tags.map((tag, i) => (
               <ListItem
                 key={tag.id}
                 divider={i < tags.length - 1}
-                sx={{ py: 1.5, gap: 2 }}
+                sx={{ py: 1.5, gap: 2, pr: 6 }}
                 secondaryAction={
                   <Tooltip title="Удалить метку">
                     <IconButton
@@ -84,12 +84,12 @@ export default function TagsPage() {
                 <Chip
                   label={tag.name}
                   size="small"
-                  sx={{ bgcolor: tag.color, color: '#fff', fontWeight: 600, minWidth: 80 }}
+                  sx={{ bgcolor: tag.color, color: '#fff', fontWeight: 600, minWidth: 80, maxWidth: { xs: 120, sm: 180 } }}
                 />
                 <ListItemText
                   primary={tag.name}
                   secondary={tag.color.toUpperCase()}
-                  primaryTypographyProps={{ fontWeight: 500 }}
+                  primaryTypographyProps={{ fontWeight: 500, sx: { overflowWrap: 'anywhere' } }}
                   secondaryTypographyProps={{ fontSize: 11, fontFamily: 'monospace' }}
                 />
               </ListItem>
@@ -99,7 +99,7 @@ export default function TagsPage() {
       )}
 
       {/* Диалог создания */}
-      <Dialog open={open} onClose={handleClose} maxWidth="xs" fullWidth>
+      <Dialog open={open} onClose={handleClose} maxWidth="xs" fullWidth sx={{ '& .MuiDialog-paper': { m: { xs: 1.5, sm: 4 }, width: { xs: 'calc(100% - 24px)', sm: '100%' } } }}>
         <DialogTitle>Новая метка</DialogTitle>
         <DialogContent>
           <TextField
@@ -135,7 +135,7 @@ export default function TagsPage() {
             ))}
           </Box>
 
-          <Box sx={{ display: 'flex', alignItems: 'center', gap: 1.5, mb: 2 }}>
+          <Box sx={{ display: 'flex', flexDirection: { xs: 'column', sm: 'row' }, alignItems: { xs: 'flex-start', sm: 'center' }, gap: 1.5, mb: 2 }}>
             <Typography variant="body2" color="text.secondary">Произвольный цвет:</Typography>
             <input
               type="color"
@@ -165,7 +165,7 @@ export default function TagsPage() {
       </Dialog>
 
       {/* Подтверждение удаления */}
-      <Dialog open={Boolean(confirmDelete)} onClose={() => setConfirmDelete(null)} maxWidth="xs">
+      <Dialog open={Boolean(confirmDelete)} onClose={() => setConfirmDelete(null)} maxWidth="xs" sx={{ '& .MuiDialog-paper': { m: { xs: 1.5, sm: 4 }, width: { xs: 'calc(100% - 24px)', sm: '100%' } } }}>
         <DialogTitle>Удалить метку?</DialogTitle>
         <DialogContent>
           <Typography>

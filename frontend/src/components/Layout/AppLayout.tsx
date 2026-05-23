@@ -84,7 +84,7 @@ export default function AppLayout() {
         </List>
       </Drawer>
 
-      <Box component="main" sx={{ flex: 1, mt: '64px', ml: `${DRAWER_WIDTH}px`, p: 3, minHeight: 'calc(100vh - 64px)', bgcolor: 'background.default' }}>
+      <Box component="main" sx={{ flex: 1, minWidth: 0, mt: '64px', p: { xs: 2, sm: 3 }, minHeight: 'calc(100vh - 64px)', bgcolor: 'background.default', overflow: 'hidden' }}>
         <Outlet />
       </Box>
     </Box>

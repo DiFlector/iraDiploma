@@ -32,16 +32,16 @@ export default function TaskCard({ task, compact }: Props) {
     <>
       <Card
         variant="outlined"
-        sx={{ mb: 1, cursor: 'pointer', '&:hover': { boxShadow: 2 } }}
+        sx={{ mb: 1, cursor: 'pointer', minWidth: 0, '&:hover': { boxShadow: 2 } }}
         onClick={() => setDetailOpen(true)}
       >
         <CardContent sx={{ pb: '8px !important', pt: 1.5, px: 2 }}>
-          <Box sx={{ display: 'flex', alignItems: 'flex-start', justifyContent: 'space-between' }}>
-            <Typography variant="body2" fontWeight={600} sx={{ flex: 1, mr: 1 }}>
+          <Box sx={{ display: 'flex', alignItems: 'flex-start', justifyContent: 'space-between', gap: 1 }}>
+            <Typography variant="body2" fontWeight={600} sx={{ flex: 1, minWidth: 0, overflowWrap: 'anywhere' }}>
               {task.title}
             </Typography>
             {!compact && (
-              <Box onClick={(e) => e.stopPropagation()}>
+              <Box onClick={(e) => e.stopPropagation()} sx={{ display: 'flex', flexShrink: 0 }}>
                 <IconButton size="small" onClick={() => setEditOpen(true)}><EditIcon fontSize="small" /></IconButton>
                 <IconButton size="small" color="error" onClick={() => deleteTask(task.id)}><DeleteIcon fontSize="small" /></IconButton>
               </Box>
@@ -49,7 +49,7 @@ export default function TaskCard({ task, compact }: Props) {
           </Box>
 
           {task.description && !compact && (
-            <Typography variant="caption" color="text.secondary" sx={{ display: 'block', mt: 0.5 }}>
+            <Typography variant="caption" color="text.secondary" sx={{ display: 'block', mt: 0.5, overflowWrap: 'anywhere' }}>
               {task.description.slice(0, 80)}{task.description.length > 80 ? '…' : ''}
             </Typography>
           )}
@@ -72,7 +72,7 @@ export default function TaskCard({ task, compact }: Props) {
             ))}
           </Box>
 
-          <Box sx={{ display: 'flex', alignItems: 'center', mt: 1, gap: 1.5 }}>
+          <Box sx={{ display: 'flex', alignItems: 'center', flexWrap: 'wrap', mt: 1, gap: 1.5 }}>
             {task.due_date && (
               <Box sx={{ display: 'flex', alignItems: 'center', gap: 0.5 }}>
                 <Typography variant="caption" color={new Date(task.due_date) < new Date() ? 'error' : 'text.secondary'}>
@@ -109,7 +109,7 @@ export default function TaskCard({ task, compact }: Props) {
             )}
             {task.assignee && (
               <Tooltip title={`${task.assignee.first_name} ${task.assignee.last_name}`}>
-                <Avatar sx={{ width: 20, height: 20, fontSize: 10, ml: 'auto', bgcolor: 'primary.main' }}>
+                <Avatar sx={{ width: 20, height: 20, fontSize: 10, bgcolor: 'primary.main' }}>
                   {task.assignee.first_name[0]}
                 </Avatar>
               </Tooltip>

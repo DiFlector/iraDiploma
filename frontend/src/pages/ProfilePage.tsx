@@ -101,11 +101,11 @@ export default function ProfilePage() {
   }
 
   return (
-    <Box sx={{ maxWidth: 560 }}>
+    <Box sx={{ maxWidth: 560, width: '100%', minWidth: 0 }}>
       <Typography variant="h5" gutterBottom>Профиль</Typography>
 
       {/* Аватар + email */}
-      <Paper variant="outlined" sx={{ p: 3, mb: 3, display: 'flex', alignItems: 'center', gap: 3 }}>
+      <Paper variant="outlined" sx={{ p: { xs: 2, sm: 3 }, mb: 3, display: 'flex', flexDirection: { xs: 'column', sm: 'row' }, alignItems: { xs: 'flex-start', sm: 'center' }, gap: { xs: 2, sm: 3 } }}>
         <Tooltip title="Нажмите для смены аватара">
           <Badge
             overlap="circular"
@@ -131,9 +131,9 @@ export default function ProfilePage() {
           </Badge>
         </Tooltip>
 
-        <Box>
-          <Typography variant="h6">{me?.first_name} {me?.last_name}</Typography>
-          <Typography variant="body2" color="text.secondary">{me?.email}</Typography>
+        <Box sx={{ minWidth: 0 }}>
+          <Typography variant="h6" sx={{ overflowWrap: 'anywhere' }}>{me?.first_name} {me?.last_name}</Typography>
+          <Typography variant="body2" color="text.secondary" sx={{ overflowWrap: 'anywhere' }}>{me?.email}</Typography>
           <Typography variant="caption" color="text.disabled">
             Зарегистрирован: {me ? new Date(me.created_at).toLocaleDateString('ru-RU') : '—'}
           </Typography>
@@ -150,7 +150,7 @@ export default function ProfilePage() {
       </Paper>
 
       {/* Редактирование имени */}
-      <Paper variant="outlined" sx={{ p: 3, mb: 3 }}>
+      <Paper variant="outlined" sx={{ p: { xs: 2, sm: 3 }, mb: 3 }}>
         <Stack direction="row" alignItems="center" spacing={1} sx={{ mb: 2 }}>
           <PersonIcon color="primary" />
           <Typography variant="subtitle1" fontWeight={600}>Личные данные</Typography>
@@ -166,7 +166,7 @@ export default function ProfilePage() {
           <Stack spacing={2}>
             <TextField label="Имя" fullWidth {...regProfile('first_name', { required: true })} />
             <TextField label="Фамилия" fullWidth {...regProfile('last_name', { required: true })} />
-            <Button type="submit" variant="contained" disabled={!profileDirty} sx={{ alignSelf: 'flex-start' }}>
+            <Button type="submit" variant="contained" disabled={!profileDirty} sx={{ alignSelf: { xs: 'stretch', sm: 'flex-start' } }}>
               Сохранить
             </Button>
           </Stack>
@@ -174,7 +174,7 @@ export default function ProfilePage() {
       </Paper>
 
       {/* Смена пароля */}
-      <Paper variant="outlined" sx={{ p: 3 }}>
+      <Paper variant="outlined" sx={{ p: { xs: 2, sm: 3 } }}>
         <Stack direction="row" alignItems="center" spacing={1} sx={{ mb: 2 }}>
           <LockIcon color="primary" />
           <Typography variant="subtitle1" fontWeight={600}>Смена пароля</Typography>
@@ -208,7 +208,7 @@ export default function ProfilePage() {
               helperText={watch('confirm_password') && watch('confirm_password') !== newPwd ? 'Пароли не совпадают' : ''}
               {...regPassword('confirm_password', { required: true })}
             />
-            <Button type="submit" variant="contained" sx={{ alignSelf: 'flex-start' }}>
+            <Button type="submit" variant="contained" sx={{ alignSelf: { xs: 'stretch', sm: 'flex-start' } }}>
               Изменить пароль
             </Button>
           </Stack>
