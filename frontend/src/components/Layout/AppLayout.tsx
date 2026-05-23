@@ -42,18 +42,6 @@ const OVERLAY_GLITTERS = [
   3, 7, 10, 14, 18, 22, 26, 30, 33, 37, 41, 45, 49, 53, 57, 61, 65, 69, 73, 77, 81, 85, 89, 93, 97,
 ] as const
 
-const GLITTER_STORM = Array.from({ length: 150 }, (_, index) => ({
-  left: (index * 17 + 5) % 100,
-  top: (index * 29 + 7) % 100,
-  size: 8 + (index % 10) * 3,
-  delay: `${(index % 30) * 0.035}s`,
-  duration: `${0.72 + (index % 9) * 0.08}s`,
-  jumpX: `${((index * 37) % 120) - 60}px`,
-  jumpY: `${((index * 53) % 110) - 55}px`,
-  fallX: `${((index * 41) % 180) - 90}px`,
-  mark: index % 7 === 0 ? '✦' : index % 7 === 1 ? '✧' : index % 7 === 2 ? '✶' : index % 7 === 3 ? '✷' : index % 7 === 4 ? '✸' : index % 7 === 5 ? '✹' : '✺',
-}))
-
 export default function AppLayout() {
   const navigate = useNavigate()
   const location = useLocation()
@@ -66,7 +54,6 @@ export default function AppLayout() {
   const [swagaStep, setSwagaStep] = useState(0)
   const [swagaFinal, setSwagaFinal] = useState(false)
   const glamourTimers = useRef<number[]>([])
-  const glamourAudio = useRef<HTMLAudioElement | null>(null)
 
   useEffect(() => () => {
     glamourTimers.current.forEach((timer) => window.clearTimeout(timer))
@@ -77,13 +64,6 @@ export default function AppLayout() {
 
     glamourTimers.current.forEach((timer) => window.clearTimeout(timer))
     glamourTimers.current = []
-    if (!glamourAudio.current) {
-      glamourAudio.current = new Audio('/SW.mp3')
-      glamourAudio.current.volume = 0.85
-    }
-    glamourAudio.current.currentTime = 0
-    void glamourAudio.current.play().catch(() => undefined)
-
     setGlamourActive(true)
     setSwagaText('')
     setSwagaStep(0)
@@ -153,49 +133,16 @@ export default function AppLayout() {
           '33%': { opacity: 1, color: '#ffffff', filter: 'drop-shadow(0 0 8px rgba(255,255,255,0.95))' },
           '66%': { opacity: 0.82, color: '#ff1f4f', filter: 'drop-shadow(0 0 8px rgba(255,31,79,0.9))' },
         },
-        '@keyframes glitterPulseMax': {
-          '0%, 100%': {
-            opacity: 0.32,
-            transform: 'scale(0.5) rotate(0deg)',
-            color: '#ff4fc3',
-            filter: 'drop-shadow(0 0 8px rgba(255,79,195,1)) drop-shadow(0 0 20px rgba(255,20,147,0.9))',
-          },
-          '25%': {
-            opacity: 1,
-            transform: 'scale(1.95) rotate(95deg)',
-            color: '#ffffff',
-            filter: 'drop-shadow(0 0 18px rgba(255,255,255,1)) drop-shadow(0 0 42px rgba(255,79,195,1))',
-          },
-          '52%': {
-            opacity: 0.98,
-            transform: 'scale(1.2) rotate(210deg)',
-            color: '#ff1f4f',
-            filter: 'drop-shadow(0 0 14px rgba(255,31,79,1)) drop-shadow(0 0 34px rgba(229,0,126,1))',
-          },
-          '76%': {
-            opacity: 1,
-            transform: 'scale(1.65) rotate(300deg)',
-            color: '#ffffff',
-            filter: 'drop-shadow(0 0 14px rgba(255,255,255,1)) drop-shadow(0 0 30px rgba(255,20,147,0.9))',
-          },
+        '@keyframes glitterTileShift': {
+          '0%': { backgroundPosition: '0 0, 12px 20px, 4px 8px, 20px 4px', filter: 'brightness(1.1) saturate(1.2)' },
+          '35%': { backgroundPosition: '34px 18px, -10px 44px, 28px -8px, 48px 26px', filter: 'brightness(1.65) saturate(1.8)' },
+          '70%': { backgroundPosition: '-18px 46px, 40px -12px, -22px 36px, 12px 54px', filter: 'brightness(1.3) saturate(1.5)' },
+          '100%': { backgroundPosition: '0 0, 12px 20px, 4px 8px, 20px 4px', filter: 'brightness(1.1) saturate(1.2)' },
         },
-        '@keyframes glitterMicroShine': {
-          '0%, 100%': { opacity: 0.2, transform: 'scale(0.65)' },
-          '45%': { opacity: 1, transform: 'scale(1.35)' },
-          '70%': { opacity: 0.55, transform: 'scale(0.95)' },
-        },
-        '@keyframes glitterJump': {
-          '0%, 100%': { transform: 'translate3d(0, 0, 0) rotate(0deg) scale(0.8)', opacity: 0.45 },
-          '18%': { transform: 'translate3d(calc(var(--jump-x) * 0.45), calc(var(--jump-y) * -0.35), 0) rotate(85deg) scale(1.45)', opacity: 1 },
-          '38%': { transform: 'translate3d(calc(var(--jump-x) * -0.25), calc(var(--jump-y) * 0.55), 0) rotate(190deg) scale(0.9)', opacity: 0.72 },
-          '62%': { transform: 'translate3d(var(--jump-x), var(--jump-y), 0) rotate(310deg) scale(1.75)', opacity: 1 },
-          '82%': { transform: 'translate3d(calc(var(--jump-x) * -0.55), calc(var(--jump-y) * -0.45), 0) rotate(420deg) scale(1.1)', opacity: 0.86 },
-        },
-        '@keyframes glitterBlizzard': {
-          '0%': { transform: 'translate3d(0, -12vh, 0) rotate(0deg)', opacity: 0 },
-          '10%': { opacity: 1 },
-          '45%': { transform: 'translate3d(calc(var(--fall-x) * 0.45), 42vh, 0) rotate(240deg)', opacity: 1 },
-          '100%': { transform: 'translate3d(var(--fall-x), 112vh, 0) rotate(720deg)', opacity: 0 },
+        '@keyframes glitterTwinkleLayer': {
+          '0%, 100%': { opacity: 0.78, transform: 'scale(1)' },
+          '45%': { opacity: 1, transform: 'scale(1.04)' },
+          '70%': { opacity: 0.88, transform: 'scale(0.99)' },
         },
         '@keyframes slaySweep': {
           '0%': { transform: 'translateX(-120%) rotate(-8deg)', opacity: 0 },
@@ -383,8 +330,33 @@ export default function AppLayout() {
             sx={{
               position: 'absolute',
               inset: 0,
-              bgcolor: 'radial-gradient(circle at center, rgba(255,255,255,0.95), rgba(255,79,195,0.42) 30%, rgba(255,31,79,0.22) 52%, transparent 72%)',
-              animation: 'slayFlash 0.9s ease-out both',
+              backgroundColor: '#030003',
+              backgroundImage: `
+                radial-gradient(circle, rgba(255,255,255,0.98) 0 1px, transparent 2px),
+                radial-gradient(circle, rgba(255,20,147,0.95) 0 1.5px, transparent 3px),
+                radial-gradient(circle, rgba(0,255,255,0.86) 0 1px, transparent 2.5px),
+                radial-gradient(circle, rgba(255,255,0,0.9) 0 1.2px, transparent 2.8px),
+                radial-gradient(circle, rgba(140,0,255,0.88) 0 1px, transparent 2.4px)
+              `,
+              backgroundSize: '16px 16px, 22px 22px, 28px 28px, 34px 34px, 42px 42px',
+              backgroundPosition: '0 0, 8px 12px, 18px 2px, 2px 24px, 28px 18px',
+              animation: 'glitterTileShift 1.6s linear infinite, glitterTwinkleLayer 0.9s ease-in-out infinite, slayFlash 0.9s ease-out both',
+            }}
+          />
+          <Box
+            sx={{
+              position: 'absolute',
+              inset: 0,
+              backgroundImage: `
+                repeating-conic-gradient(from 45deg, rgba(255,255,255,0.72) 0deg 8deg, transparent 8deg 18deg),
+                radial-gradient(circle at 20% 30%, rgba(255,255,255,0.95), transparent 7%),
+                radial-gradient(circle at 74% 18%, rgba(255,20,147,0.8), transparent 9%),
+                radial-gradient(circle at 62% 78%, rgba(0,255,255,0.74), transparent 8%)
+              `,
+              backgroundSize: '24px 24px, 100% 100%, 100% 100%, 100% 100%',
+              mixBlendMode: 'screen',
+              opacity: 0.68,
+              animation: 'glitterTileShift 1.1s linear infinite reverse',
             }}
           />
           {[0, 1, 2].map((ring) => (
@@ -429,39 +401,6 @@ export default function AppLayout() {
               }}
             >
               {index % 2 === 0 ? '✦' : '✧'}
-            </Box>
-          ))}
-          {GLITTER_STORM.map((spark, index) => (
-            <Box
-              key={`${spark.left}-${spark.top}-${index}`}
-              component="span"
-              sx={{
-                position: 'absolute',
-                left: `${spark.left}%`,
-                top: index % 2 === 0 ? '-8vh' : `${spark.top}%`,
-                '--jump-x': spark.jumpX,
-                '--jump-y': spark.jumpY,
-                '--fall-x': spark.fallX,
-                animation: index % 2 === 0
-                  ? `glitterBlizzard ${1.2 + (index % 10) * 0.08}s linear infinite`
-                  : `glitterJump ${spark.duration} steps(2, jump-none) infinite`,
-                animationDelay: spark.delay,
-              }}
-            >
-              <Box
-                component="span"
-                sx={{
-                  display: 'inline-block',
-                  color: index % 5 === 0 ? '#ffffff' : index % 5 === 1 ? '#ff4fc3' : index % 5 === 2 ? '#ff1f4f' : index % 5 === 3 ? '#ff8bd8' : '#ffe6f7',
-                  fontSize: { xs: Math.max(6, spark.size - 4), sm: spark.size },
-                  lineHeight: 1,
-                  textShadow: '0 0 8px rgba(255,255,255,1), 0 0 18px rgba(255,79,195,0.95), 0 0 34px rgba(255,20,147,0.72)',
-                  animation: `${index % 3 === 0 ? 'glitterPulseMax' : 'glitterMicroShine'} ${spark.duration} ease-in-out infinite`,
-                  animationDelay: spark.delay,
-                }}
-              >
-                {spark.mark}
-              </Box>
             </Box>
           ))}
           {[
