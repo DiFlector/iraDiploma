@@ -25,17 +25,48 @@ const navItems = [
   { label: 'Аналитика', path: '/analytics', icon: <BarChartIcon /> },
 ]
 
+const GLAMOUR_SPARKS = [
+  ['4%', '-48%', '✦', '-18px', '-24px', '0s', 13],
+  ['12%', '18%', '✧', '-28px', '8px', '0.18s', 10],
+  ['22%', '-28%', '✦', '-4px', '-34px', '0.35s', 12],
+  ['31%', '8%', '✧', '10px', '-28px', '0.52s', 9],
+  ['43%', '-46%', '✦', '18px', '-22px', '0.7s', 14],
+  ['54%', '16%', '✧', '-8px', '24px', '0.86s', 10],
+  ['66%', '-32%', '✦', '24px', '-30px', '1.05s', 12],
+  ['76%', '8%', '✧', '26px', '18px', '1.22s', 9],
+  ['88%', '-42%', '✦', '34px', '-18px', '1.4s', 13],
+  ['96%', '18%', '✧', '28px', '22px', '1.56s', 10],
+] as const
+
+const OVERLAY_GLITTERS = [
+  3, 7, 10, 14, 18, 22, 26, 30, 33, 37, 41, 45, 49, 53, 57, 61, 65, 69, 73, 77, 81, 85, 89, 93, 97,
+] as const
+
+const GLITTER_STORM = Array.from({ length: 150 }, (_, index) => ({
+  left: (index * 17 + 5) % 100,
+  top: (index * 29 + 7) % 100,
+  size: 8 + (index % 10) * 3,
+  delay: `${(index % 30) * 0.035}s`,
+  duration: `${0.72 + (index % 9) * 0.08}s`,
+  jumpX: `${((index * 37) % 120) - 60}px`,
+  jumpY: `${((index * 53) % 110) - 55}px`,
+  fallX: `${((index * 41) % 180) - 90}px`,
+  mark: index % 7 === 0 ? '✦' : index % 7 === 1 ? '✧' : index % 7 === 2 ? '✶' : index % 7 === 3 ? '✷' : index % 7 === 4 ? '✸' : index % 7 === 5 ? '✹' : '✺',
+}))
+
 export default function AppLayout() {
   const navigate = useNavigate()
   const location = useLocation()
   const dispatch = useAppDispatch()
   const user = useAppSelector((s) => s.auth.user)
   const [anchorEl, setAnchorEl] = useState<null | HTMLElement>(null)
+  const [glamourUnlocked, setGlamourUnlocked] = useState(false)
   const [glamourActive, setGlamourActive] = useState(false)
   const [swagaText, setSwagaText] = useState('')
   const [swagaStep, setSwagaStep] = useState(0)
   const [swagaFinal, setSwagaFinal] = useState(false)
   const glamourTimers = useRef<number[]>([])
+  const glamourAudio = useRef<HTMLAudioElement | null>(null)
 
   useEffect(() => () => {
     glamourTimers.current.forEach((timer) => window.clearTimeout(timer))
@@ -46,6 +77,13 @@ export default function AppLayout() {
 
     glamourTimers.current.forEach((timer) => window.clearTimeout(timer))
     glamourTimers.current = []
+    if (!glamourAudio.current) {
+      glamourAudio.current = new Audio('/SW.mp3')
+      glamourAudio.current.volume = 0.85
+    }
+    glamourAudio.current.currentTime = 0
+    void glamourAudio.current.play().catch(() => undefined)
+
     setGlamourActive(true)
     setSwagaText('')
     setSwagaStep(0)
@@ -110,58 +148,175 @@ export default function AppLayout() {
           '15%': { opacity: 1 },
           '100%': { opacity: 0, transform: 'translateY(72px) scale(1.1) rotate(220deg)' },
         },
+        '@keyframes constantGlamourTwinkle': {
+          '0%, 100%': { opacity: 0.35, color: '#ff4fc3', filter: 'drop-shadow(0 0 4px rgba(255,79,195,0.9))' },
+          '33%': { opacity: 1, color: '#ffffff', filter: 'drop-shadow(0 0 8px rgba(255,255,255,0.95))' },
+          '66%': { opacity: 0.82, color: '#ff1f4f', filter: 'drop-shadow(0 0 8px rgba(255,31,79,0.9))' },
+        },
+        '@keyframes glitterPulseMax': {
+          '0%, 100%': {
+            opacity: 0.32,
+            transform: 'scale(0.5) rotate(0deg)',
+            color: '#ff4fc3',
+            filter: 'drop-shadow(0 0 8px rgba(255,79,195,1)) drop-shadow(0 0 20px rgba(255,20,147,0.9))',
+          },
+          '25%': {
+            opacity: 1,
+            transform: 'scale(1.95) rotate(95deg)',
+            color: '#ffffff',
+            filter: 'drop-shadow(0 0 18px rgba(255,255,255,1)) drop-shadow(0 0 42px rgba(255,79,195,1))',
+          },
+          '52%': {
+            opacity: 0.98,
+            transform: 'scale(1.2) rotate(210deg)',
+            color: '#ff1f4f',
+            filter: 'drop-shadow(0 0 14px rgba(255,31,79,1)) drop-shadow(0 0 34px rgba(229,0,126,1))',
+          },
+          '76%': {
+            opacity: 1,
+            transform: 'scale(1.65) rotate(300deg)',
+            color: '#ffffff',
+            filter: 'drop-shadow(0 0 14px rgba(255,255,255,1)) drop-shadow(0 0 30px rgba(255,20,147,0.9))',
+          },
+        },
+        '@keyframes glitterMicroShine': {
+          '0%, 100%': { opacity: 0.2, transform: 'scale(0.65)' },
+          '45%': { opacity: 1, transform: 'scale(1.35)' },
+          '70%': { opacity: 0.55, transform: 'scale(0.95)' },
+        },
+        '@keyframes glitterJump': {
+          '0%, 100%': { transform: 'translate3d(0, 0, 0) rotate(0deg) scale(0.8)', opacity: 0.45 },
+          '18%': { transform: 'translate3d(calc(var(--jump-x) * 0.45), calc(var(--jump-y) * -0.35), 0) rotate(85deg) scale(1.45)', opacity: 1 },
+          '38%': { transform: 'translate3d(calc(var(--jump-x) * -0.25), calc(var(--jump-y) * 0.55), 0) rotate(190deg) scale(0.9)', opacity: 0.72 },
+          '62%': { transform: 'translate3d(var(--jump-x), var(--jump-y), 0) rotate(310deg) scale(1.75)', opacity: 1 },
+          '82%': { transform: 'translate3d(calc(var(--jump-x) * -0.55), calc(var(--jump-y) * -0.45), 0) rotate(420deg) scale(1.1)', opacity: 0.86 },
+        },
+        '@keyframes glitterBlizzard': {
+          '0%': { transform: 'translate3d(0, -12vh, 0) rotate(0deg)', opacity: 0 },
+          '10%': { opacity: 1 },
+          '45%': { transform: 'translate3d(calc(var(--fall-x) * 0.45), 42vh, 0) rotate(240deg)', opacity: 1 },
+          '100%': { transform: 'translate3d(var(--fall-x), 112vh, 0) rotate(720deg)', opacity: 0 },
+        },
+        '@keyframes slaySweep': {
+          '0%': { transform: 'translateX(-120%) rotate(-8deg)', opacity: 0 },
+          '20%': { opacity: 0.95 },
+          '55%': { opacity: 1 },
+          '100%': { transform: 'translateX(120%) rotate(-8deg)', opacity: 0 },
+        },
+        '@keyframes glitterShockwave': {
+          '0%': { opacity: 0, transform: 'translate(-50%, -50%) scale(0.08)' },
+          '12%': { opacity: 1 },
+          '65%': { opacity: 0.72 },
+          '100%': { opacity: 0, transform: 'translate(-50%, -50%) scale(3.2)' },
+        },
+        '@keyframes slayTextGlitter': {
+          '0%, 100%': {
+            color: '#ff1493',
+            textShadow: '0 0 5px rgba(255,255,255,0.8), 0 0 14px rgba(255,79,195,0.9), 0 0 28px rgba(255,31,79,0.5)',
+            filter: 'brightness(1)',
+          },
+          '35%': {
+            color: '#ffffff',
+            textShadow: '0 0 8px rgba(255,255,255,1), 0 0 20px rgba(255,79,195,0.95), 0 0 34px rgba(255,20,147,0.7)',
+            filter: 'brightness(1.45)',
+          },
+          '70%': {
+            color: '#ff1f4f',
+            textShadow: '0 0 6px rgba(255,255,255,0.85), 0 0 18px rgba(255,31,79,0.9), 0 0 34px rgba(229,0,126,0.62)',
+            filter: 'brightness(1.18)',
+          },
+        },
         ...(glamourActive ? {
           '& .MuiAppBar-root': { bgcolor: '#fff0fa', boxShadow: '0 0 22px rgba(255, 79, 195, 0.28)' },
           '& .MuiDrawer-paper': { bgcolor: '#fff0fa' },
           '& main': { bgcolor: '#fff5fb' },
           '& .MuiCard-root, & .MuiPaper-root': { boxShadow: '0 0 18px rgba(255, 79, 195, 0.2)' },
+          '& .MuiTypography-root, & .MuiButton-root, & .MuiListItemText-primary, & .MuiListItemText-secondary, & .MuiChip-label, & .MuiInputBase-input, & .MuiInputLabel-root': {
+            animation: 'slayTextGlitter 1.05s ease-in-out infinite',
+            background: 'linear-gradient(90deg, #ff1493, #ffffff, #ff1f4f, #ff8bd8, #ffffff)',
+            backgroundSize: '260% 100%',
+            WebkitBackgroundClip: 'text',
+            backgroundClip: 'text',
+          },
         } : {}),
       }}
     >
       <AppBar position="fixed" elevation={0} sx={{ zIndex: 1201, bgcolor: 'background.paper', color: 'text.primary', borderBottom: '1px solid', borderColor: 'divider' }}>
         <Toolbar>
           <Box sx={{ flex: 1, display: 'flex', alignItems: 'center', gap: { xs: 1, sm: 1.5 }, minWidth: 0 }}>
-            <Typography variant="h6" sx={{ fontWeight: 700, color: 'primary.main', flexShrink: 0 }}>
-              TaskApp
-            </Typography>
-            <Box
+            <Typography
               component="button"
               type="button"
-              onClick={triggerGlamour}
+              variant="h6"
+              onClick={() => setGlamourUnlocked(true)}
               sx={{
-                position: 'relative',
-                display: 'inline-flex',
-                alignItems: 'center',
                 border: 0,
                 p: 0,
                 bgcolor: 'transparent',
-                color: '#e5007e',
-                fontWeight: 900,
-                fontSize: { xs: 18, sm: 24 },
-                lineHeight: 1,
-                letterSpacing: 0,
-                textTransform: 'uppercase',
-                userSelect: 'none',
-                transform: 'skew(-5deg)',
+                fontWeight: 700,
+                color: 'primary.main',
+                flexShrink: 0,
                 cursor: 'pointer',
-                '&:focus-visible': { outline: '2px solid #ff4fc3', outlineOffset: 3, borderRadius: 1 },
-                '& .glamour-star': {
-                  position: 'absolute',
-                  color: '#ff4fc3',
-                  fontSize: 13,
-                  lineHeight: 1,
-                  textShadow: '0 0 6px rgba(255, 79, 195, 0.95), 0 0 14px rgba(229, 0, 126, 0.65)',
-                  animation: 'glamourSpark 1.8s ease-out infinite',
-                  pointerEvents: 'none',
-                },
+                letterSpacing: 0,
+                fontFamily: 'inherit',
+                '&:focus-visible': { outline: '2px solid', outlineColor: 'primary.main', outlineOffset: 4, borderRadius: 1 },
               }}
             >
-              GLAMOUR
-              <Box component="span" className="glamour-star" sx={{ left: '8%', top: '-35%', '--spark-x': '-18px', '--spark-y': '-24px', animationDelay: '0s' }}>✦</Box>
-              <Box component="span" className="glamour-star" sx={{ left: '28%', top: '5%', '--spark-x': '4px', '--spark-y': '-30px', animationDelay: '0.35s' }}>✧</Box>
-              <Box component="span" className="glamour-star" sx={{ left: '52%', top: '-30%', '--spark-x': '18px', '--spark-y': '-22px', animationDelay: '0.7s' }}>✦</Box>
-              <Box component="span" className="glamour-star" sx={{ right: '10%', top: '8%', '--spark-x': '26px', '--spark-y': '-18px', animationDelay: '1.05s' }}>✧</Box>
-            </Box>
+              TaskApp
+            </Typography>
+            {glamourUnlocked && (
+              <Box
+                component="button"
+                type="button"
+                onClick={triggerGlamour}
+                sx={{
+                  position: 'relative',
+                  display: 'inline-flex',
+                  alignItems: 'center',
+                  border: 0,
+                  p: 0,
+                  bgcolor: 'transparent',
+                  color: '#e5007e',
+                  fontWeight: 900,
+                  fontSize: { xs: 18, sm: 24 },
+                  lineHeight: 1,
+                  letterSpacing: 0,
+                  textTransform: 'uppercase',
+                  userSelect: 'none',
+                  transform: 'skew(-5deg)',
+                  cursor: 'pointer',
+                  '&:focus-visible': { outline: '2px solid #ff4fc3', outlineOffset: 3, borderRadius: 1 },
+                  '& .glamour-star': {
+                    position: 'absolute',
+                    color: '#ff4fc3',
+                    fontSize: 13,
+                    lineHeight: 1,
+                    textShadow: '0 0 6px rgba(255, 79, 195, 0.95), 0 0 14px rgba(229, 0, 126, 0.65)',
+                    animation: 'glamourSpark 1.8s ease-out infinite, constantGlamourTwinkle 2.4s ease-in-out infinite',
+                    pointerEvents: 'none',
+                  },
+                }}
+              >
+                GLAMOUR
+                {GLAMOUR_SPARKS.map(([left, top, mark, sparkX, sparkY, delay, size]) => (
+                  <Box
+                    key={`${left}-${top}`}
+                    component="span"
+                    className="glamour-star"
+                    sx={{
+                      left,
+                      top,
+                      '--spark-x': sparkX,
+                      '--spark-y': sparkY,
+                      animationDelay: delay,
+                      fontSize: size,
+                    }}
+                  >
+                    {mark}
+                  </Box>
+                ))}
+              </Box>
+            )}
           </Box>
           <NotificationBell />
           <IconButton onClick={(e) => setAnchorEl(e.currentTarget)} sx={{ ml: 1 }}>
@@ -221,33 +376,92 @@ export default function AppLayout() {
             pointerEvents: 'none',
             overflow: 'hidden',
             bgcolor: 'rgba(255, 79, 195, 0.16)',
-            boxShadow: 'inset 0 0 120px rgba(229, 0, 126, 0.26)',
+            boxShadow: 'inset 0 0 180px rgba(229, 0, 126, 0.42), inset 0 0 80px rgba(255, 255, 255, 0.34)',
           }}
         >
           <Box
             sx={{
               position: 'absolute',
               inset: 0,
-              bgcolor: 'radial-gradient(circle at center, rgba(255,255,255,0.9), rgba(255,79,195,0.34) 32%, transparent 68%)',
+              bgcolor: 'radial-gradient(circle at center, rgba(255,255,255,0.95), rgba(255,79,195,0.42) 30%, rgba(255,31,79,0.22) 52%, transparent 72%)',
               animation: 'slayFlash 0.9s ease-out both',
             }}
           />
-          {[6, 14, 23, 31, 42, 55, 64, 73, 84, 92].map((left, index) => (
+          {[0, 1, 2].map((ring) => (
+            <Box
+              key={ring}
+              sx={{
+                position: 'absolute',
+                left: '50%',
+                top: '50%',
+                width: { xs: 180 + ring * 60, sm: 260 + ring * 90 },
+                height: { xs: 180 + ring * 60, sm: 260 + ring * 90 },
+                borderRadius: '50%',
+                border: '4px solid rgba(255,255,255,0.92)',
+                boxShadow: '0 0 28px rgba(255,255,255,0.95), 0 0 70px rgba(255,79,195,0.9), inset 0 0 34px rgba(255,31,79,0.7)',
+                animation: `glitterShockwave ${0.9 + ring * 0.16}s ease-out infinite`,
+                animationDelay: `${ring * 0.12}s`,
+              }}
+            />
+          ))}
+          <Box
+            sx={{
+              position: 'absolute',
+              inset: '-20%',
+              background: 'linear-gradient(105deg, transparent 14%, rgba(255,255,255,0.82) 30%, rgba(255,79,195,0.72) 42%, rgba(255,31,79,0.58) 48%, transparent 62%)',
+              mixBlendMode: 'screen',
+              animation: 'slaySweep 0.72s ease-in-out infinite',
+            }}
+          />
+          {OVERLAY_GLITTERS.map((left, index) => (
             <Box
               key={left}
               component="span"
               sx={{
                 position: 'absolute',
                 left: `${left}%`,
-                top: `${index % 3 === 0 ? 12 : index % 3 === 1 ? 24 : 5}%`,
-                color: index % 2 === 0 ? '#ff4fc3' : '#ff8bd8',
-                fontSize: { xs: 18, sm: 26 },
-                textShadow: '0 0 12px rgba(255, 79, 195, 0.95)',
-                animation: `glitterFall ${1.3 + index * 0.08}s ease-out infinite`,
-                animationDelay: `${index * 0.12}s`,
+                top: `${index % 5 === 0 ? 8 : index % 5 === 1 ? 18 : index % 5 === 2 ? 30 : index % 5 === 3 ? 46 : 62}%`,
+                color: index % 3 === 0 ? '#ff4fc3' : index % 3 === 1 ? '#ffffff' : '#ff1f4f',
+                fontSize: { xs: 16 + (index % 4) * 2, sm: 22 + (index % 5) * 3 },
+                textShadow: '0 0 10px rgba(255, 255, 255, 0.9), 0 0 18px rgba(255, 79, 195, 0.95)',
+                animation: `glitterFall ${1.15 + index * 0.035}s ease-out infinite, constantGlamourTwinkle ${1.8 + index * 0.04}s ease-in-out infinite`,
+                animationDelay: `${index * 0.07}s`,
               }}
             >
               {index % 2 === 0 ? '✦' : '✧'}
+            </Box>
+          ))}
+          {GLITTER_STORM.map((spark, index) => (
+            <Box
+              key={`${spark.left}-${spark.top}-${index}`}
+              component="span"
+              sx={{
+                position: 'absolute',
+                left: `${spark.left}%`,
+                top: index % 2 === 0 ? '-8vh' : `${spark.top}%`,
+                '--jump-x': spark.jumpX,
+                '--jump-y': spark.jumpY,
+                '--fall-x': spark.fallX,
+                animation: index % 2 === 0
+                  ? `glitterBlizzard ${1.2 + (index % 10) * 0.08}s linear infinite`
+                  : `glitterJump ${spark.duration} steps(2, jump-none) infinite`,
+                animationDelay: spark.delay,
+              }}
+            >
+              <Box
+                component="span"
+                sx={{
+                  display: 'inline-block',
+                  color: index % 5 === 0 ? '#ffffff' : index % 5 === 1 ? '#ff4fc3' : index % 5 === 2 ? '#ff1f4f' : index % 5 === 3 ? '#ff8bd8' : '#ffe6f7',
+                  fontSize: { xs: Math.max(6, spark.size - 4), sm: spark.size },
+                  lineHeight: 1,
+                  textShadow: '0 0 8px rgba(255,255,255,1), 0 0 18px rgba(255,79,195,0.95), 0 0 34px rgba(255,20,147,0.72)',
+                  animation: `${index % 3 === 0 ? 'glitterPulseMax' : 'glitterMicroShine'} ${spark.duration} ease-in-out infinite`,
+                  animationDelay: spark.delay,
+                }}
+              >
+                {spark.mark}
+              </Box>
             </Box>
           ))}
           {[
@@ -297,8 +511,13 @@ export default function AppLayout() {
                 lineHeight: 0.85,
                 letterSpacing: 0,
                 textTransform: 'uppercase',
-                textShadow: '0 0 18px rgba(255, 79, 195, 0.95), 0 0 60px rgba(229, 0, 126, 0.72), 0 0 120px rgba(255, 20, 147, 0.42)',
-                animation: swagaFinal ? 'swagaFinal 1.95s ease-in-out forwards' : 'swagaLetter 0.62s ease-out forwards',
+                background: 'linear-gradient(90deg, #ff1493, #ffffff, #ff1f4f, #ff8bd8, #ffffff, #e5007e)',
+                backgroundSize: '260% 100%',
+                WebkitBackgroundClip: 'text',
+                backgroundClip: 'text',
+                textShadow: '0 0 18px rgba(255, 255, 255, 0.95), 0 0 38px rgba(255, 79, 195, 0.95), 0 0 80px rgba(229, 0, 126, 0.85), 0 0 150px rgba(255, 20, 147, 0.62)',
+                filter: 'drop-shadow(0 0 14px rgba(255,255,255,0.85)) drop-shadow(0 0 34px rgba(255,20,147,0.8))',
+                animation: swagaFinal ? 'swagaFinal 1.95s ease-in-out forwards, slayTextGlitter 0.42s ease-in-out infinite' : 'swagaLetter 0.62s ease-out forwards, slayTextGlitter 0.42s ease-in-out infinite',
                 whiteSpace: 'nowrap',
               }}
             >
