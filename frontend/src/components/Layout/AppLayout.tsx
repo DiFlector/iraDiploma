@@ -135,14 +135,41 @@ export default function AppLayout() {
         },
         '@keyframes glitterTileShift': {
           '0%': { backgroundPosition: '0 0, 12px 20px, 4px 8px, 20px 4px', filter: 'brightness(1.1) saturate(1.2)' },
-          '35%': { backgroundPosition: '34px 18px, -10px 44px, 28px -8px, 48px 26px', filter: 'brightness(1.65) saturate(1.8)' },
-          '70%': { backgroundPosition: '-18px 46px, 40px -12px, -22px 36px, 12px 54px', filter: 'brightness(1.3) saturate(1.5)' },
-          '100%': { backgroundPosition: '0 0, 12px 20px, 4px 8px, 20px 4px', filter: 'brightness(1.1) saturate(1.2)' },
+          '14%': { backgroundPosition: '18px -12px, -20px 36px, 42px 12px, -8px 46px', filter: 'brightness(2.25) saturate(2.3)' },
+          '28%': { backgroundPosition: '-28px 34px, 44px -18px, -16px 52px, 58px -6px', filter: 'brightness(1.35) saturate(1.7)' },
+          '43%': { backgroundPosition: '54px 18px, -34px -22px, 20px -28px, -42px 34px', filter: 'brightness(2.65) saturate(2.6)' },
+          '61%': { backgroundPosition: '-12px -46px, 30px 58px, -50px 8px, 18px -38px', filter: 'brightness(1.55) saturate(2)' },
+          '78%': { backgroundPosition: '38px 48px, -52px 10px, 48px -44px, -18px 62px', filter: 'brightness(2.45) saturate(2.5)' },
+          '100%': { backgroundPosition: '-30px 12px, 52px -34px, -26px 42px, 44px 18px', filter: 'brightness(1.8) saturate(2.1)' },
         },
         '@keyframes glitterTwinkleLayer': {
-          '0%, 100%': { opacity: 0.78, transform: 'scale(1)' },
-          '45%': { opacity: 1, transform: 'scale(1.04)' },
-          '70%': { opacity: 0.88, transform: 'scale(0.99)' },
+          '0%, 100%': { opacity: 0.82, transform: 'translate3d(0, 0, 0) scale(1)' },
+          '16%': { opacity: 1, transform: 'translate3d(-5px, 4px, 0) scale(1.035)' },
+          '31%': { opacity: 0.68, transform: 'translate3d(6px, -3px, 0) scale(0.99)' },
+          '47%': { opacity: 1, transform: 'translate3d(-3px, -5px, 0) scale(1.05)' },
+          '66%': { opacity: 0.76, transform: 'translate3d(5px, 3px, 0) scale(1.01)' },
+          '83%': { opacity: 1, transform: 'translate3d(-6px, 2px, 0) scale(1.045)' },
+        },
+        '@keyframes glitterVibrate': {
+          '0%, 100%': { transform: 'translate3d(0, 0, 0) rotate(0deg)' },
+          '10%': { transform: 'translate3d(-7px, 5px, 0) rotate(-0.4deg)' },
+          '20%': { transform: 'translate3d(6px, -6px, 0) rotate(0.35deg)' },
+          '30%': { transform: 'translate3d(-4px, -3px, 0) rotate(-0.25deg)' },
+          '40%': { transform: 'translate3d(8px, 4px, 0) rotate(0.42deg)' },
+          '50%': { transform: 'translate3d(-6px, 7px, 0) rotate(-0.32deg)' },
+          '60%': { transform: 'translate3d(5px, -4px, 0) rotate(0.3deg)' },
+          '70%': { transform: 'translate3d(-8px, -5px, 0) rotate(-0.45deg)' },
+          '80%': { transform: 'translate3d(7px, 6px, 0) rotate(0.38deg)' },
+          '90%': { transform: 'translate3d(-5px, 3px, 0) rotate(-0.28deg)' },
+        },
+        '@keyframes glitterStrobeGlow': {
+          '0%, 100%': { opacity: 0.72 },
+          '12%': { opacity: 1 },
+          '24%': { opacity: 0.58 },
+          '38%': { opacity: 1 },
+          '54%': { opacity: 0.66 },
+          '70%': { opacity: 1 },
+          '86%': { opacity: 0.6 },
         },
         '@keyframes slaySweep': {
           '0%': { transform: 'translateX(-120%) rotate(-8deg)', opacity: 0 },
@@ -322,8 +349,9 @@ export default function AppLayout() {
             zIndex: 2000,
             pointerEvents: 'none',
             overflow: 'hidden',
-            bgcolor: 'rgba(255, 79, 195, 0.16)',
+            bgcolor: 'rgba(255, 79, 195, 0.22)',
             boxShadow: 'inset 0 0 180px rgba(229, 0, 126, 0.42), inset 0 0 80px rgba(255, 255, 255, 0.34)',
+            animation: 'glitterVibrate 0.24s steps(2, jump-none) infinite',
           }}
         >
           <Box
@@ -340,7 +368,7 @@ export default function AppLayout() {
               `,
               backgroundSize: '16px 16px, 22px 22px, 28px 28px, 34px 34px, 42px 42px',
               backgroundPosition: '0 0, 8px 12px, 18px 2px, 2px 24px, 28px 18px',
-              animation: 'glitterTileShift 1.6s linear infinite, glitterTwinkleLayer 0.9s ease-in-out infinite, slayFlash 0.9s ease-out both',
+              animation: 'glitterTileShift 0.38s steps(2, jump-none) infinite, glitterTwinkleLayer 0.28s ease-in-out infinite, glitterStrobeGlow 0.32s steps(2, jump-none) infinite, slayFlash 0.9s ease-out both',
             }}
           />
           <Box
@@ -355,8 +383,8 @@ export default function AppLayout() {
               `,
               backgroundSize: '24px 24px, 100% 100%, 100% 100%, 100% 100%',
               mixBlendMode: 'screen',
-              opacity: 0.68,
-              animation: 'glitterTileShift 1.1s linear infinite reverse',
+              opacity: 0.86,
+              animation: 'glitterTileShift 0.29s steps(2, jump-none) infinite reverse, glitterVibrate 0.18s steps(2, jump-none) infinite',
             }}
           />
           {[0, 1, 2].map((ring) => (
