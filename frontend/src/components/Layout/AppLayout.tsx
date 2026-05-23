@@ -368,7 +368,16 @@ export default function AppLayout() {
               `,
               backgroundSize: '16px 16px, 22px 22px, 28px 28px, 34px 34px, 42px 42px',
               backgroundPosition: '0 0, 8px 12px, 18px 2px, 2px 24px, 28px 18px',
-              animation: 'glitterTileShift 0.38s steps(2, jump-none) infinite, glitterTwinkleLayer 0.28s ease-in-out infinite, glitterStrobeGlow 0.32s steps(2, jump-none) infinite, slayFlash 0.9s ease-out both',
+              animation: 'glitterTileShift 0.38s steps(2, jump-none) infinite, glitterTwinkleLayer 0.28s ease-in-out infinite, glitterStrobeGlow 0.32s steps(2, jump-none) infinite',
+            }}
+          />
+          <Box
+            sx={{
+              position: 'absolute',
+              inset: 0,
+              bgcolor: 'radial-gradient(circle at center, rgba(255,255,255,0.72), rgba(255,79,195,0.22) 34%, transparent 68%)',
+              animation: 'slayFlash 0.9s ease-out both',
+              mixBlendMode: 'screen',
             }}
           />
           <Box
