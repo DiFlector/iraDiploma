@@ -25,23 +25,6 @@ const navItems = [
   { label: 'Аналитика', path: '/analytics', icon: <BarChartIcon /> },
 ]
 
-const GLAMOUR_SPARKS = [
-  ['4%', '-48%', '✦', '-18px', '-24px', '0s', 13],
-  ['12%', '18%', '✧', '-28px', '8px', '0.18s', 10],
-  ['22%', '-28%', '✦', '-4px', '-34px', '0.35s', 12],
-  ['31%', '8%', '✧', '10px', '-28px', '0.52s', 9],
-  ['43%', '-46%', '✦', '18px', '-22px', '0.7s', 14],
-  ['54%', '16%', '✧', '-8px', '24px', '0.86s', 10],
-  ['66%', '-32%', '✦', '24px', '-30px', '1.05s', 12],
-  ['76%', '8%', '✧', '26px', '18px', '1.22s', 9],
-  ['88%', '-42%', '✦', '34px', '-18px', '1.4s', 13],
-  ['96%', '18%', '✧', '28px', '22px', '1.56s', 10],
-] as const
-
-const OVERLAY_GLITTERS = [
-  3, 7, 10, 14, 18, 22, 26, 30, 33, 37, 41, 45, 49, 53, 57, 61, 65, 69, 73, 77, 81, 85, 89, 93, 97,
-] as const
-
 export default function AppLayout() {
   const navigate = useNavigate()
   const location = useLocation()
@@ -128,90 +111,11 @@ export default function AppLayout() {
           '15%': { opacity: 1 },
           '100%': { opacity: 0, transform: 'translateY(72px) scale(1.1) rotate(220deg)' },
         },
-        '@keyframes constantGlamourTwinkle': {
-          '0%, 100%': { opacity: 0.35, color: '#ff4fc3', filter: 'drop-shadow(0 0 4px rgba(255,79,195,0.9))' },
-          '33%': { opacity: 1, color: '#ffffff', filter: 'drop-shadow(0 0 8px rgba(255,255,255,0.95))' },
-          '66%': { opacity: 0.82, color: '#ff1f4f', filter: 'drop-shadow(0 0 8px rgba(255,31,79,0.9))' },
-        },
-        '@keyframes glitterTileShift': {
-          '0%': { backgroundPosition: '0 0, 12px 20px, 4px 8px, 20px 4px', filter: 'brightness(1.1) saturate(1.2)' },
-          '14%': { backgroundPosition: '18px -12px, -20px 36px, 42px 12px, -8px 46px', filter: 'brightness(2.25) saturate(2.3)' },
-          '28%': { backgroundPosition: '-28px 34px, 44px -18px, -16px 52px, 58px -6px', filter: 'brightness(1.35) saturate(1.7)' },
-          '43%': { backgroundPosition: '54px 18px, -34px -22px, 20px -28px, -42px 34px', filter: 'brightness(2.65) saturate(2.6)' },
-          '61%': { backgroundPosition: '-12px -46px, 30px 58px, -50px 8px, 18px -38px', filter: 'brightness(1.55) saturate(2)' },
-          '78%': { backgroundPosition: '38px 48px, -52px 10px, 48px -44px, -18px 62px', filter: 'brightness(2.45) saturate(2.5)' },
-          '100%': { backgroundPosition: '-30px 12px, 52px -34px, -26px 42px, 44px 18px', filter: 'brightness(1.8) saturate(2.1)' },
-        },
-        '@keyframes glitterTwinkleLayer': {
-          '0%, 100%': { opacity: 0.82, transform: 'translate3d(0, 0, 0) scale(1)' },
-          '16%': { opacity: 1, transform: 'translate3d(-5px, 4px, 0) scale(1.035)' },
-          '31%': { opacity: 0.68, transform: 'translate3d(6px, -3px, 0) scale(0.99)' },
-          '47%': { opacity: 1, transform: 'translate3d(-3px, -5px, 0) scale(1.05)' },
-          '66%': { opacity: 0.76, transform: 'translate3d(5px, 3px, 0) scale(1.01)' },
-          '83%': { opacity: 1, transform: 'translate3d(-6px, 2px, 0) scale(1.045)' },
-        },
-        '@keyframes glitterVibrate': {
-          '0%, 100%': { transform: 'translate3d(0, 0, 0) rotate(0deg)' },
-          '10%': { transform: 'translate3d(-7px, 5px, 0) rotate(-0.4deg)' },
-          '20%': { transform: 'translate3d(6px, -6px, 0) rotate(0.35deg)' },
-          '30%': { transform: 'translate3d(-4px, -3px, 0) rotate(-0.25deg)' },
-          '40%': { transform: 'translate3d(8px, 4px, 0) rotate(0.42deg)' },
-          '50%': { transform: 'translate3d(-6px, 7px, 0) rotate(-0.32deg)' },
-          '60%': { transform: 'translate3d(5px, -4px, 0) rotate(0.3deg)' },
-          '70%': { transform: 'translate3d(-8px, -5px, 0) rotate(-0.45deg)' },
-          '80%': { transform: 'translate3d(7px, 6px, 0) rotate(0.38deg)' },
-          '90%': { transform: 'translate3d(-5px, 3px, 0) rotate(-0.28deg)' },
-        },
-        '@keyframes glitterStrobeGlow': {
-          '0%, 100%': { opacity: 0.72 },
-          '12%': { opacity: 1 },
-          '24%': { opacity: 0.58 },
-          '38%': { opacity: 1 },
-          '54%': { opacity: 0.66 },
-          '70%': { opacity: 1 },
-          '86%': { opacity: 0.6 },
-        },
-        '@keyframes slaySweep': {
-          '0%': { transform: 'translateX(-120%) rotate(-8deg)', opacity: 0 },
-          '20%': { opacity: 0.95 },
-          '55%': { opacity: 1 },
-          '100%': { transform: 'translateX(120%) rotate(-8deg)', opacity: 0 },
-        },
-        '@keyframes glitterShockwave': {
-          '0%': { opacity: 0, transform: 'translate(-50%, -50%) scale(0.08)' },
-          '12%': { opacity: 1 },
-          '65%': { opacity: 0.72 },
-          '100%': { opacity: 0, transform: 'translate(-50%, -50%) scale(3.2)' },
-        },
-        '@keyframes slayTextGlitter': {
-          '0%, 100%': {
-            color: '#ff1493',
-            textShadow: '0 0 5px rgba(255,255,255,0.8), 0 0 14px rgba(255,79,195,0.9), 0 0 28px rgba(255,31,79,0.5)',
-            filter: 'brightness(1)',
-          },
-          '35%': {
-            color: '#ffffff',
-            textShadow: '0 0 8px rgba(255,255,255,1), 0 0 20px rgba(255,79,195,0.95), 0 0 34px rgba(255,20,147,0.7)',
-            filter: 'brightness(1.45)',
-          },
-          '70%': {
-            color: '#ff1f4f',
-            textShadow: '0 0 6px rgba(255,255,255,0.85), 0 0 18px rgba(255,31,79,0.9), 0 0 34px rgba(229,0,126,0.62)',
-            filter: 'brightness(1.18)',
-          },
-        },
         ...(glamourActive ? {
           '& .MuiAppBar-root': { bgcolor: '#fff0fa', boxShadow: '0 0 22px rgba(255, 79, 195, 0.28)' },
           '& .MuiDrawer-paper': { bgcolor: '#fff0fa' },
           '& main': { bgcolor: '#fff5fb' },
           '& .MuiCard-root, & .MuiPaper-root': { boxShadow: '0 0 18px rgba(255, 79, 195, 0.2)' },
-          '& .MuiTypography-root, & .MuiButton-root, & .MuiListItemText-primary, & .MuiListItemText-secondary, & .MuiChip-label, & .MuiInputBase-input, & .MuiInputLabel-root': {
-            animation: 'slayTextGlitter 1.05s ease-in-out infinite',
-            background: 'linear-gradient(90deg, #ff1493, #ffffff, #ff1f4f, #ff8bd8, #ffffff)',
-            backgroundSize: '260% 100%',
-            WebkitBackgroundClip: 'text',
-            backgroundClip: 'text',
-          },
         } : {}),
       }}
     >
@@ -266,29 +170,16 @@ export default function AppLayout() {
                     fontSize: 13,
                     lineHeight: 1,
                     textShadow: '0 0 6px rgba(255, 79, 195, 0.95), 0 0 14px rgba(229, 0, 126, 0.65)',
-                    animation: 'glamourSpark 1.8s ease-out infinite, constantGlamourTwinkle 2.4s ease-in-out infinite',
+                    animation: 'glamourSpark 1.8s ease-out infinite',
                     pointerEvents: 'none',
                   },
                 }}
               >
                 GLAMOUR
-                {GLAMOUR_SPARKS.map(([left, top, mark, sparkX, sparkY, delay, size]) => (
-                  <Box
-                    key={`${left}-${top}`}
-                    component="span"
-                    className="glamour-star"
-                    sx={{
-                      left,
-                      top,
-                      '--spark-x': sparkX,
-                      '--spark-y': sparkY,
-                      animationDelay: delay,
-                      fontSize: size,
-                    }}
-                  >
-                    {mark}
-                  </Box>
-                ))}
+                <Box component="span" className="glamour-star" sx={{ left: '8%', top: '-35%', '--spark-x': '-18px', '--spark-y': '-24px', animationDelay: '0s' }}>✦</Box>
+                <Box component="span" className="glamour-star" sx={{ left: '28%', top: '5%', '--spark-x': '4px', '--spark-y': '-30px', animationDelay: '0.35s' }}>✧</Box>
+                <Box component="span" className="glamour-star" sx={{ left: '52%', top: '-30%', '--spark-x': '18px', '--spark-y': '-22px', animationDelay: '0.7s' }}>✦</Box>
+                <Box component="span" className="glamour-star" sx={{ right: '10%', top: '8%', '--spark-x': '26px', '--spark-y': '-18px', animationDelay: '1.05s' }}>✧</Box>
               </Box>
             )}
           </Box>
@@ -349,92 +240,31 @@ export default function AppLayout() {
             zIndex: 2000,
             pointerEvents: 'none',
             overflow: 'hidden',
-            bgcolor: 'rgba(255, 79, 195, 0.22)',
-            boxShadow: 'inset 0 0 180px rgba(229, 0, 126, 0.42), inset 0 0 80px rgba(255, 255, 255, 0.34)',
-            animation: 'glitterVibrate 0.24s steps(2, jump-none) infinite',
+            bgcolor: 'rgba(255, 79, 195, 0.16)',
+            boxShadow: 'inset 0 0 120px rgba(229, 0, 126, 0.26)',
           }}
         >
           <Box
             sx={{
               position: 'absolute',
               inset: 0,
-              backgroundColor: '#030003',
-              backgroundImage: `
-                radial-gradient(circle, rgba(255,255,255,0.98) 0 1px, transparent 2px),
-                radial-gradient(circle, rgba(255,20,147,0.95) 0 1.5px, transparent 3px),
-                radial-gradient(circle, rgba(0,255,255,0.86) 0 1px, transparent 2.5px),
-                radial-gradient(circle, rgba(255,255,0,0.9) 0 1.2px, transparent 2.8px),
-                radial-gradient(circle, rgba(140,0,255,0.88) 0 1px, transparent 2.4px)
-              `,
-              backgroundSize: '16px 16px, 22px 22px, 28px 28px, 34px 34px, 42px 42px',
-              backgroundPosition: '0 0, 8px 12px, 18px 2px, 2px 24px, 28px 18px',
-              animation: 'glitterTileShift 0.38s steps(2, jump-none) infinite, glitterTwinkleLayer 0.28s ease-in-out infinite, glitterStrobeGlow 0.32s steps(2, jump-none) infinite',
-            }}
-          />
-          <Box
-            sx={{
-              position: 'absolute',
-              inset: 0,
-              bgcolor: 'radial-gradient(circle at center, rgba(255,255,255,0.72), rgba(255,79,195,0.22) 34%, transparent 68%)',
+              bgcolor: 'radial-gradient(circle at center, rgba(255,255,255,0.9), rgba(255,79,195,0.34) 32%, transparent 68%)',
               animation: 'slayFlash 0.9s ease-out both',
-              mixBlendMode: 'screen',
             }}
           />
-          <Box
-            sx={{
-              position: 'absolute',
-              inset: 0,
-              backgroundImage: `
-                repeating-conic-gradient(from 45deg, rgba(255,255,255,0.72) 0deg 8deg, transparent 8deg 18deg),
-                radial-gradient(circle at 20% 30%, rgba(255,255,255,0.95), transparent 7%),
-                radial-gradient(circle at 74% 18%, rgba(255,20,147,0.8), transparent 9%),
-                radial-gradient(circle at 62% 78%, rgba(0,255,255,0.74), transparent 8%)
-              `,
-              backgroundSize: '24px 24px, 100% 100%, 100% 100%, 100% 100%',
-              mixBlendMode: 'screen',
-              opacity: 0.86,
-              animation: 'glitterTileShift 0.29s steps(2, jump-none) infinite reverse, glitterVibrate 0.18s steps(2, jump-none) infinite',
-            }}
-          />
-          {[0, 1, 2].map((ring) => (
-            <Box
-              key={ring}
-              sx={{
-                position: 'absolute',
-                left: '50%',
-                top: '50%',
-                width: { xs: 180 + ring * 60, sm: 260 + ring * 90 },
-                height: { xs: 180 + ring * 60, sm: 260 + ring * 90 },
-                borderRadius: '50%',
-                border: '4px solid rgba(255,255,255,0.92)',
-                boxShadow: '0 0 28px rgba(255,255,255,0.95), 0 0 70px rgba(255,79,195,0.9), inset 0 0 34px rgba(255,31,79,0.7)',
-                animation: `glitterShockwave ${0.9 + ring * 0.16}s ease-out infinite`,
-                animationDelay: `${ring * 0.12}s`,
-              }}
-            />
-          ))}
-          <Box
-            sx={{
-              position: 'absolute',
-              inset: '-20%',
-              background: 'linear-gradient(105deg, transparent 14%, rgba(255,255,255,0.82) 30%, rgba(255,79,195,0.72) 42%, rgba(255,31,79,0.58) 48%, transparent 62%)',
-              mixBlendMode: 'screen',
-              animation: 'slaySweep 0.72s ease-in-out infinite',
-            }}
-          />
-          {OVERLAY_GLITTERS.map((left, index) => (
+          {[6, 14, 23, 31, 42, 55, 64, 73, 84, 92].map((left, index) => (
             <Box
               key={left}
               component="span"
               sx={{
                 position: 'absolute',
                 left: `${left}%`,
-                top: `${index % 5 === 0 ? 8 : index % 5 === 1 ? 18 : index % 5 === 2 ? 30 : index % 5 === 3 ? 46 : 62}%`,
-                color: index % 3 === 0 ? '#ff4fc3' : index % 3 === 1 ? '#ffffff' : '#ff1f4f',
-                fontSize: { xs: 16 + (index % 4) * 2, sm: 22 + (index % 5) * 3 },
-                textShadow: '0 0 10px rgba(255, 255, 255, 0.9), 0 0 18px rgba(255, 79, 195, 0.95)',
-                animation: `glitterFall ${1.15 + index * 0.035}s ease-out infinite, constantGlamourTwinkle ${1.8 + index * 0.04}s ease-in-out infinite`,
-                animationDelay: `${index * 0.07}s`,
+                top: `${index % 3 === 0 ? 12 : index % 3 === 1 ? 24 : 5}%`,
+                color: index % 2 === 0 ? '#ff4fc3' : '#ff8bd8',
+                fontSize: { xs: 18, sm: 26 },
+                textShadow: '0 0 12px rgba(255, 79, 195, 0.95)',
+                animation: `glitterFall ${1.3 + index * 0.08}s ease-out infinite`,
+                animationDelay: `${index * 0.12}s`,
               }}
             >
               {index % 2 === 0 ? '✦' : '✧'}
@@ -487,13 +317,8 @@ export default function AppLayout() {
                 lineHeight: 0.85,
                 letterSpacing: 0,
                 textTransform: 'uppercase',
-                background: 'linear-gradient(90deg, #ff1493, #ffffff, #ff1f4f, #ff8bd8, #ffffff, #e5007e)',
-                backgroundSize: '260% 100%',
-                WebkitBackgroundClip: 'text',
-                backgroundClip: 'text',
-                textShadow: '0 0 18px rgba(255, 255, 255, 0.95), 0 0 38px rgba(255, 79, 195, 0.95), 0 0 80px rgba(229, 0, 126, 0.85), 0 0 150px rgba(255, 20, 147, 0.62)',
-                filter: 'drop-shadow(0 0 14px rgba(255,255,255,0.85)) drop-shadow(0 0 34px rgba(255,20,147,0.8))',
-                animation: swagaFinal ? 'swagaFinal 1.95s ease-in-out forwards, slayTextGlitter 0.42s ease-in-out infinite' : 'swagaLetter 0.62s ease-out forwards, slayTextGlitter 0.42s ease-in-out infinite',
+                textShadow: '0 0 18px rgba(255, 79, 195, 0.95), 0 0 60px rgba(229, 0, 126, 0.72), 0 0 120px rgba(255, 20, 147, 0.42)',
+                animation: swagaFinal ? 'swagaFinal 1.95s ease-in-out forwards' : 'swagaLetter 0.62s ease-out forwards',
                 whiteSpace: 'nowrap',
               }}
             >
